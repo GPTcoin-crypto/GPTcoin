@@ -11,15 +11,15 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
-            background-color: #282c34;
-            color: #ffffff;
+            background-color: #121212;
+            color: #f5f5f5;
         }
         header {
-            background: linear-gradient(90deg, #1a73e8, #61dafb);
+            background: linear-gradient(90deg, #000000, #2d2d2d);
             color: white;
             padding: 1.5rem 0;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         header h1 {
             margin: 0;
@@ -35,41 +35,41 @@
             display: inline-block;
             margin-top: 1rem;
             padding: 0.7rem 1.5rem;
-            background: #ff6f61;
+            background: #333333;
             color: white;
             text-decoration: none;
             font-weight: bold;
             border-radius: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             animation: bounceIn 3s;
         }
         .cta-button:hover {
-            background: #ff3b3b;
+            background: #555555;
         }
         section {
             padding: 3rem 1rem;
             max-width: 800px;
             margin: auto;
-            background: rgba(255, 255, 255, 0.1);
+            background: #1f1f1f;
             border-radius: 10px;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         section h2 {
             margin-top: 0;
-            color: #61dafb;
+            color: #ffffff;
         }
         section p, section ul, section ol {
             margin: 1rem 0;
-            color: #e0e0e0;
+            color: #cccccc;
         }
         footer {
-            background: #1a73e8;
+            background: #000000;
             color: white;
             text-align: center;
             padding: 1.5rem 0;
             margin-top: 2rem;
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
         }
         footer p {
             margin: 0;
@@ -102,7 +102,29 @@
                 opacity: 1;
             }
         }
+        .market-cap {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #333333;
+            border-radius: 10px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 1.2rem;
+        }
     </style>
+    <script>
+        async function fetchMarketCap() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=gptcoin&vs_currencies=usd&include_market_cap=true');
+                const data = await response.json();
+                const marketCap = data.gptcoin.usd_market_cap;
+                document.getElementById('market-cap').textContent = `Market Cap: $${marketCap.toLocaleString()}`;
+            } catch (error) {
+                document.getElementById('market-cap').textContent = 'Market Cap: Unable to fetch data';
+            }
+        }
+        window.onload = fetchMarketCap;
+    </script>
 </head>
 <body>
     <header>
@@ -133,6 +155,11 @@
             <li><strong>Total Supply:</strong> Information not specified; please check <a href="https://pump.fun/coin/GGzZG3iWMc3rntfMY91WaRC6Mz6ub2nGsiqz7JwwCLT8" target="_blank">Pump.fun</a> for updates.</li>
             <li><strong>Allocation:</strong> Check official sources for the latest breakdown.</li>
         </ul>
+    </section>
+
+    <section id="market-cap-section">
+        <h2>Market Cap</h2>
+        <div id="market-cap" class="market-cap">Loading market cap...</div>
     </section>
 
     <section id="why-gptcoin">
