@@ -13,6 +13,7 @@
             line-height: 1.6;
             background-color: #121212;
             color: #f5f5f5;
+            transition: background-color 0.5s, color 0.5s;
         }
         header {
             background: linear-gradient(90deg, #000000, #2d2d2d);
@@ -74,34 +75,6 @@
         footer p {
             margin: 0;
         }
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes bounceIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
         .market-cap {
             margin-top: 1rem;
             padding: 1rem;
@@ -110,6 +83,53 @@
             text-align: center;
             color: #ffffff;
             font-size: 1.2rem;
+        }
+        .light-mode {
+            background-color: #f5f5f5;
+            color: #121212;
+        }
+        .toggle-mode {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: #333333;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle-mode:hover {
+            background: #555555;
+        }
+        .special-feature {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #262626;
+            border-radius: 10px;
+            text-align: center;
+            color: #e0e0e0;
+        }
+        .special-feature input {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #555555;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 300px;
+        }
+        .special-feature button {
+            padding: 0.7rem 1.5rem;
+            background: #444444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .special-feature button:hover {
+            background: #666666;
         }
     </style>
     <script>
@@ -123,10 +143,29 @@
                 document.getElementById('market-cap').textContent = 'Market Cap: Unable to fetch data';
             }
         }
+
+        function toggleMode() {
+            document.body.classList.toggle('light-mode');
+        }
+
+        function calculateGPTCoin() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const price = parseFloat(document.getElementById('price').value);
+
+            if (!isNaN(amount) && !isNaN(price) && price > 0) {
+                const coins = amount / price;
+                document.getElementById('result').textContent = `You can buy ${coins.toFixed(2)} GPTCoins!`;
+            } else {
+                document.getElementById('result').textContent = 'Please enter valid values.';
+            }
+        }
+
         window.onload = fetchMarketCap;
     </script>
 </head>
 <body>
+    <button class="toggle-mode" onclick="toggleMode()">Toggle Light Mode</button>
+
     <header>
         <h1>Welcome to GPTCoin</h1>
         <p>The AI-Powered Meme Coin That Redefines Cryptocurrency</p>
@@ -162,36 +201,13 @@
         <div id="market-cap" class="market-cap">Loading market cap...</div>
     </section>
 
-    <section id="why-gptcoin">
-        <h2>Why Choose GPTCoin?</h2>
-        <p>GPTCoin offers a unique combination of technology, humor, and opportunity:</p>
-        <ol>
-            <li><strong>AI-Driven:</strong> Created by AI, redefining the meme coin concept.</li>
-            <li><strong>Community-Centric:</strong> Built with the community at its core.</li>
-            <li><strong>Innovative:</strong> Integrates cutting-edge AI with cryptocurrency.</li>
-        </ol>
-    </section>
-
-    <section id="how-to-buy">
-        <h2>How to Buy GPTCoin</h2>
-        <p>Follow these steps to purchase GPTCoin:</p>
-        <ol>
-            <li>Visit <a href="https://pump.fun/coin/GGzZG3iWMc3rntfMY91WaRC6Mz6ub2nGsiqz7JwwCLT8" target="_blank">Pump.fun</a>.</li>
-            <li>Create an account and log in.</li>
-            <li>Use the platform's instructions to buy GPTCoin.</li>
-        </ol>
-        <a href="https://pump.fun/coin/GGzZG3iWMc3rntfMY91WaRC6Mz6ub2nGsiqz7JwwCLT8" target="_blank" class="cta-button">Buy GPTCoin Now</a>
-    </section>
-
-    <section id="future">
-        <h2>The Future of GPTCoin</h2>
-        <p>Exciting plans for the future include:</p>
-        <ul>
-            <li>Developing new AI-powered tools for token holders.</li>
-            <li>Expanding market presence and collaborations.</li>
-            <li>Innovating with the latest technologies to drive growth.</li>
-        </ul>
-        <p>Be part of the GPTCoin journey and join the revolution!</p>
+    <section id="special-feature" class="special-feature">
+        <h2>Special Feature: Calculate GPTCoin</h2>
+        <p>Enter the amount you want to spend and the current price of GPTCoin to see how much you can buy!</p>
+        <input type="number" id="amount" placeholder="Enter amount in USD">
+        <input type="number" id="price" placeholder="Enter price per GPTCoin in USD">
+        <button onclick="calculateGPTCoin()">Calculate</button>
+        <p id="result"></p>
     </section>
 
     <footer>
